@@ -1,6 +1,6 @@
 export enum EmployeeType {
   DAILY = 'daily',
-  MONTHY = 'monthy'
+  MONTHY = 'monthly'
 }
 
 export enum WorkDuration {

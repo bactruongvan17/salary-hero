@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { WorkLog } from '../models/entity/WorkLog'
-import { WorkDuration } from '../constants/enum'
+import { EmployeeType, WorkDuration } from '../constants/enum'
 import { Employee } from '../models/entity/Employee'
 import { CalculateEmployeeBalanceFormat } from '../response/format'
 
@@ -27,19 +27,25 @@ export class EmployeeBalanceService {
 
     const standardWorkingDays = this.getStandardWorkingDays()
 
+    const baseSalary = this.getBaseSalary()
+
+    const employeeType = this.getEmployeeType()
+
     let balance = 0
 
-    if (this.employee.isMonthlyEmployee()) {
+    if (employeeType === EmployeeType.MONTHY) {
       const paidWorkingDays = actualWorkingDays + this.getPaidHolidays()
-      balance = this.calculateBalanceOfMonthlyEmployee(paidWorkingDays, standardWorkingDays)
-    } else if (this.employee.isDailyEmployee()) {
-      balance = this.calculateBalanceOfDailyEmployee(actualWorkingDays)
+      balance = this.calculateBalanceOfMonthlyEmployee(paidWorkingDays, standardWorkingDays, baseSalary)
+    } else if (employeeType === EmployeeType.DAILY) {
+      balance = this.calculateBalanceOfDailyEmployee(actualWorkingDays, baseSalary)
     }
 
     return {
+      baseSalary,
       balance,
       standardWorkingDays,
-      actualWorkingDays
+      actualWorkingDays,
+      employeeType: employeeType
     }
   }
 
@@ -87,27 +93,49 @@ export class EmployeeBalanceService {
   }
 
   /**
+   * Get base salary / base rate in month
+   * @returns number
+   */
+  private getBaseSalary(): number {
+    return !this.workLogs.length ? this.employee.salary : this.workLogs[0].currSalary;
+  }
+
+  /**
+   * Get employee type in month
+   * @returns EmployeeType
+   */
+  private getEmployeeType(): EmployeeType {
+    return !this.workLogs.length ? this.employee.type : this.workLogs[0].currEmployeeType
+  }
+
+  /**
    * Calculate balance of monthly employee
    * Formula: (base salary / standard working days) * paid working days
+   * @param baseSalary number
    * @param paidWorkingDays number
    * @param standardWorkingDay number
    * @returns number
    */
-  private calculateBalanceOfMonthlyEmployee(paidWorkingDays: number, standardWorkingDay: number): number {
+  private calculateBalanceOfMonthlyEmployee(
+    paidWorkingDays: number,
+    standardWorkingDay: number,
+    baseSalary: number
+  ): number {
     if (paidWorkingDays === 0) {
       return 0
     }
 
-    return Math.round((this.employee.salary / standardWorkingDay) * paidWorkingDays)
+    return Math.round((baseSalary / standardWorkingDay) * paidWorkingDays)
   }
 
   /**
    * Calculate balance of daily employee
    * Formula: base salary * paid working days
+   * @param baseSalary number
    * @param paidWorkingDays number
    * @returns number
    */
-  private calculateBalanceOfDailyEmployee(paidWorkingDays: number): number {
-    return this.employee.salary * paidWorkingDays
+  private calculateBalanceOfDailyEmployee(paidWorkingDays: number, baseSalary: number): number {
+    return baseSalary * paidWorkingDays
   }
 }

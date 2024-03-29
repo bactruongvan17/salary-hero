@@ -9,7 +9,10 @@ html(lang="en")
     link(rel="stylesheet", href="/static/css/style.css")
   body
     header
-        h1 Work Logs
+        h1(style="display: flex; gap: 30px;")
+            a(href="/") Home
+            span >>
+            span Work Logs
     main(id="app")
         div(style="margin-bottom: 10px;")
             label(for="year" style="width: 150px;display: inline-block;") Filter by Year:
@@ -53,9 +56,9 @@ html(lang="en")
                 p Employee: 
                     strong {{ employee.name }}
                 p Employee Type: 
-                    strong {{ employee.type === 'monthly' ? 'Monthly Worker' : 'Daily Worker' }}
+                    strong {{ employeeType === 'daily' ? 'Daily Worker' : 'Monthly Worker' }}
                 p Salary/Rate: 
-                    strong {{ Number(employee.salary).toLocaleString('en-US', { style: 'currency', currency: employee.currency || 'USD' }) }}
+                    strong {{ Number(baseSalary).toLocaleString('en-US', { style: 'currency', currency: employee.currency || 'USD' }) }}
                 p Standard Working Day: 
                     strong {{ standardWorkingDays }}
                 p Actual Workday: 

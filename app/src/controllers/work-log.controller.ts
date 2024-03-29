@@ -46,11 +46,13 @@ export class WorkLogController {
       const data = await this.service.getByEmployee(empId, month.format('YYYY-MM-DD'))
 
       return res.json({
+        base_salary: data.baseSalary,
         balance: data.balance,
         actual_working_days: data.actualWorkingDays,
         standard_working_days: data.standardWorkingDays,
         employee: camelToSnake(data.employee),
-        work_logs: data.workLogs.map((item) => camelToSnake(item))
+        work_logs: data.workLogs.map((item) => camelToSnake(item)),
+        employee_type: data.employeeType
       })
     } catch (e: any | BaseError) {
       return res.status(e.statusCode ?? HTTP_SERVER_ERROR).json({

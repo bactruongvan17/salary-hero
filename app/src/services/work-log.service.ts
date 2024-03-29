@@ -43,11 +43,13 @@ export class WorkLogService {
     const data = empBalanceService.calculateBalance()
 
     return {
+      baseSalary: data.baseSalary,
       balance: data.balance,
       actualWorkingDays: data.actualWorkingDays,
       standardWorkingDays: data.standardWorkingDays,
       employee: transformEmployee(employee),
-      workLogs: workLogs.map((workLog) => transformWorkLog(workLog))
+      workLogs: workLogs.map((workLog) => transformWorkLog(workLog)),
+      employeeType: data.employeeType
     }
   }
 }

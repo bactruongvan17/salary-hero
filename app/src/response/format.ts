@@ -18,15 +18,19 @@ export interface EmployeeFormat {
 }
 
 export interface CalculateEmployeeBalanceFormat {
+  baseSalary: number
   balance: number
   standardWorkingDays: number
   actualWorkingDays: number
+  employeeType: EmployeeType
 }
 
 export interface GetEmployeeWorkLogsFormat {
+  baseSalary: number
   balance: number
   standardWorkingDays: number
   actualWorkingDays: number
   workLogs: WorkLogFormat[]
   employee: EmployeeFormat
+  employeeType: EmployeeType
 }

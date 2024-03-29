@@ -53,11 +53,13 @@ describe('WorkLogController', () => {
 
       mockService.getByEmployee.and.returnValue(
         Promise.resolve({
+          baseSalary: 1000,
           actualWorkingDays: 1000,
           balance: 1,
           employee: transformEmployee(mockEmployee),
           workLogs: [],
-          standardWorkingDays: 30
+          standardWorkingDays: 30,
+          employeeType: mockEmployee.type
         })
       )
 
@@ -80,11 +82,13 @@ describe('WorkLogController', () => {
 
       mockService.getByEmployee.and.returnValue(
         Promise.resolve({
+          baseSalary: 1000,
           actualWorkingDays: 1,
           balance: 1000,
           employee: transformEmployee(mockEmployee),
           workLogs: [],
-          standardWorkingDays: 30
+          standardWorkingDays: 30,
+          employeeType: mockEmployee.type
         })
       )
 
