@@ -1,0 +1,38 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Salary Hero
+    script(src="https://unpkg.com/vue@3/dist/vue.global.js")
+    link(rel="stylesheet", href="/static/css/style.css")
+  body
+    header
+      h1 Salary Hero
+    main(id="app")
+      table
+        thead
+          tr
+            th(style="text-align: center") ID
+            th Name
+            th Type
+            th Salary/Rate
+            th Date Start Work
+            th(style="text-align: center") #
+        tbody
+          tr(v-for="employee in employees" :key="employee.id")
+            td(style="text-align: center") {{ employee.id }}
+            td {{ employee.name }}
+            td {{ employee.type_text }}
+            td {{ employee.salary }}
+            td {{ employee.date_start_work }}
+            td(style="text-align: center") <a :href="`/worklogs/${employee.id}`" class="link">View Work Log</a>
+      .pagination
+        button(@click="prevPage") Previous
+        span Page {{ currentPage }}
+        button(@click="nextPage") Next
+    footer
+      p Copyright © 2024 Bac Truong Van. All rights reserved.
+
+    
+    script(src="/static/js/main.js")
