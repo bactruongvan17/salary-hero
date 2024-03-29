@@ -143,3 +143,6 @@ Follow these steps to install and set up Salary Hero:
 
 
 ![Database Schema](docs/img/demo2.png)
+
+
+![Database Schema](docs/img/demo3.png)
