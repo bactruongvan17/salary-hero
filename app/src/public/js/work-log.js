@@ -9,7 +9,9 @@ const app = Vue.createApp({
       daysInMonth: [],
       employee: null,
       standardWorkingDays: null,
-      actualWorkingDays: null
+      actualWorkingDays: null,
+      baseSalary: null,
+      employeeType: null,
     }
   },
   mounted() {
@@ -50,6 +52,8 @@ const app = Vue.createApp({
         this.employee = data.employee
         this.standardWorkingDays = data.standard_working_days
         this.actualWorkingDays = data.actual_working_days
+        this.baseSalary = data.base_salary
+        this.employeeType = data.employee_type
         const workLogsTemp = new Map()
         for (const item of data.work_logs) {
           const date = moment(item.log_time).format('YYYY-MM-DD')
